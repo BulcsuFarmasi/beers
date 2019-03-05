@@ -1,6 +1,7 @@
 <template>
   <div class="beers">
       <h1>Beers</h1>
+      <BeerSearch v-on:search-changed="onSearchChanged($event)" /> 
       <div class="beer" v-for="beer of beers" v-bind:key="beer.id">
         <h2>{{ beer.name }}</h2>
         <img v-bind:src="beer.image_url">
@@ -12,10 +13,14 @@
 <script>
 
 import BeerService from '../services/BeerService.js';
+import BeerSearch from './BeerSearch.vue';
 
 export default {
   name: 'Beers',
-  data: () => {
+  components: {
+    BeerSearch
+  },
+  data ()  {
     return {
       beers: []
     }
@@ -25,6 +30,11 @@ export default {
      this.beerService.getBeers().then((beers) => {
        this.beers = beers;
      })
+  },
+  methods: {
+      onSearchChanged: function (searchExpression) {
+        this.beers = this.beerService.searchBeers(searchExpression);
+      }
   }
 }
 </script>
