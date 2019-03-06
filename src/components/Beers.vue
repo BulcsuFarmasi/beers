@@ -1,24 +1,34 @@
 <template>
-  <div class="beers">
+    <div class="beers">
       <h1>Beers</h1>
-      <BeerSearch v-on:search-changed="onSearchChanged($event)" /> 
-      <div class="beer" v-for="beer of beers" v-bind:key="beer.id">
-        <h2>{{ beer.name }}</h2>
-        <img v-bind:src="beer.image_url">
-        <p>{{ beer.description }}</p>
-      </div>
-  </div>
+      <BeerSearch v-on:search-changed="onSearchChanged($event)" />
+      <BeerFilter v-on:filter-changed="onFilterChanged($event)" />
+        <div class="beer" v-for="beer of beers" v-bind:key="beer.id">
+          <h2>{{ beer.name }}</h2>
+          <img v-bind:src="beer.image_url">
+          <p>Brewed: <strong>{{ beer.firstBrewed | date }}</strong></p>
+          <p>{{ beer.description }}</p>
+        </div>
+    </div>
 </template>
 
 <script>
 
-import BeerService from '../services/BeerService.js';
-import BeerSearch from './BeerSearch.vue';
+import BeerFilter from './BeerFilter'
+import BeerSearch from './BeerSearch';
+
+import BeerService from '../services/BeerService';
 
 export default {
   name: 'Beers',
   components: {
+    BeerFilter,
     BeerSearch
+  },
+  filters: {
+    date: function(value) {
+      return value.format('YYYY/MM')
+    }
   },
   data ()  {
     return {
@@ -29,9 +39,14 @@ export default {
      this.beerService = new BeerService();
      this.beerService.getBeers().then((beers) => {
        this.beers = beers;
+       // eslint-disable-next-line
+       console.log(beers)
      })
   },
   methods: {
+      onFilterChanged: function (filter) {
+        this.beers = this.beerService.filterBeers(filter);
+      },
       onSearchChanged: function (searchExpression) {
         this.beers = this.beerService.searchBeers(searchExpression);
       }
