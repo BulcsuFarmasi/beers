@@ -13,7 +13,7 @@
             </p>
             <p class="red--text text-xs-center" v-if="isInvalidInterval()">Invalid interval</p>
             <p>
-                <v-btn color="warning" v-on:click="onFilter()">Filter</v-btn>
+                <v-btn color="warning" v-on:click="onFilter()">Search in Brew Date</v-btn>
             </p>
             <p>
                 <v-btn color="warning" v-on:click="clearFilters()">Clear Filters</v-btn>
