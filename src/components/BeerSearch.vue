@@ -1,7 +1,8 @@
 <template>
     <p>
-        <v-text-field solo label="Search" v-model="searchExpression"></v-text-field>
-        <v-btn color="warning" v-on:click="onSearch()">Search</v-btn>
+        <v-text-field solo label="Search Name" v-model="searchExpression"></v-text-field>
+        <v-btn color="warning" v-on:click="onSearch()">Search</v-btn><br>
+        <v-btn color="warning" v-on:click="clearSearch()">Clear Search</v-btn>
     </p>
 </template>
 
@@ -14,6 +15,10 @@ export default {
         }
     },
     methods: {
+        clearSearch : function () {
+            this.searchExpression = '';
+            this.onSearch();
+        },
         onSearch: function () {
             this.$emit('search-changed', this.searchExpression);
         }

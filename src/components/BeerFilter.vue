@@ -1,17 +1,22 @@
 <template>
     <div class="filter">
-        <v-btn color="warning" v-on:click="toggleFilter()">Show Filters</v-btn>
+        <v-btn color="warning" v-on:click="toggleFilter()" v-if="!filtersShown">Show Filters</v-btn>
+        <v-btn color="warning" v-on:click="toggleFilter()" v-if="filtersShown">Hide Filters</v-btn>
         <div class="filters" v-if="filtersShown">
             <p>
-                <label for="brewed-after">Brewed After</label><br>
+                <span>First Brewed After</span><br>
                 <vue-monthly-picker v-model="filter.brewedAfter"></vue-monthly-picker>
             </p>
             <p>
-                <label for="brewed-before">Brewed Before</label><br>
+                <span>First Brewed Before</span><br>
                 <vue-monthly-picker v-model="filter.brewedBefore"></vue-monthly-picker>
             </p>
+            <p class="red--text text-xs-center" v-if="isInvalidInterval()">Invalid interval</p>
             <p>
                 <v-btn color="warning" v-on:click="onFilter()">Filter</v-btn>
+            </p>
+            <p>
+                <v-btn color="warning" v-on:click="clearFilters()">Clear Filters</v-btn>
             </p>
         </div>
     </div>
@@ -36,6 +41,18 @@ export default {
         }
     },
     methods: {
+        clearFilters: function () {
+            this.filter.brewedBefore = null;
+            this.filter.brewedAfter = null;
+            this.onFilter();
+        },
+        isInvalidInterval () {
+            if (this.filter.brewedBefore && this.filter.brewedAfter) {
+                return this.filter.brewedBefore < this.filter.brewedAfter;
+            } else {
+                return false
+            }
+        },
         onFilter: function () {
             this.$emit('filter-changed', this.filter)
         },

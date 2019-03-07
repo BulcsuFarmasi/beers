@@ -43,14 +43,12 @@ export default class {
     }
 
     searchBeers (searchExpression) {
-        // eslint-disable-next-line
-        console.log(searchExpression);
         if (!searchExpression) {
             return this.beers;
         }
 
         return this.beers.filter((beer) => {
-            return beer.name.indexOf(searchExpression) > -1;                
+            return beer.name.toLowerCase().indexOf(searchExpression.toLowerCase()) > -1;                
         })
     }
 

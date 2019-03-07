@@ -5,19 +5,20 @@
           <BeerSearch v-on:search-changed="onSearchChanged($event)" />
           <BeerFilter v-on:filter-changed="onFilterChanged($event)" />
       </v-container>
-      <v-container d-flex> 
+      <v-container d-flex v-if="beers.length > 0"> 
           <v-flex class="beer" v-for="beer of beers" v-bind:key="beer.id">
             <v-card color="warning">
               <v-card-title>
                 <h2>{{ beer.name }}</h2>
               </v-card-title>
               <v-card-text>
-                <p>Brewed: <strong>{{ beer.firstBrewed | date }}</strong></p>
+                <p>First brewed: <strong>{{ beer.firstBrewed | date }}</strong></p>
                 <p>{{ beer.description }}</p>
               </v-card-text>
             </v-card>
           </v-flex>
       </v-container>
+      <p v-else class="text-xs-center">Beers not found</p>
     </div>
 </template>
 
@@ -48,8 +49,8 @@ export default {
   mounted () {
      this.beerService = new BeerService();
      this.beerService.getBeers().then((beers) => {
-       this.beers = beers;
        this.isLoading = false;
+       this.beers = beers;
      })
   },
   methods: {
