@@ -1,3 +1,3 @@
-// module.exports = {
-//     publicPath: 'beers'
-// }
+module.exports = {
+    publicPath: 'beers'
+}
