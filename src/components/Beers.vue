@@ -1,14 +1,23 @@
 <template>
     <div class="beers">
-      <h1>Beers</h1>
-      <BeerSearch v-on:search-changed="onSearchChanged($event)" />
-      <BeerFilter v-on:filter-changed="onFilterChanged($event)" />
-        <div class="beer" v-for="beer of beers" v-bind:key="beer.id">
-          <h2>{{ beer.name }}</h2>
-          <img v-bind:src="beer.image_url">
-          <p>Brewed: <strong>{{ beer.firstBrewed | date }}</strong></p>
-          <p>{{ beer.description }}</p>
-        </div>
+      <v-container class="text-xs-center">
+          <h1>Beers</h1>
+          <BeerSearch v-on:search-changed="onSearchChanged($event)" />
+          <BeerFilter v-on:filter-changed="onFilterChanged($event)" />
+      </v-container>
+      <v-container d-flex> 
+          <v-flex class="beer" v-for="beer of beers" v-bind:key="beer.id">
+            <v-card color="warning">
+              <v-card-title>
+                <h2>{{ beer.name }}</h2>
+              </v-card-title>
+              <v-card-text>
+                <p>Brewed: <strong>{{ beer.firstBrewed | date }}</strong></p>
+                <p>{{ beer.description }}</p>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+      </v-container>
     </div>
 </template>
 
@@ -32,15 +41,15 @@ export default {
   },
   data ()  {
     return {
-      beers: []
+      beers: [],
+      isLoading: true
     }
   },
   mounted () {
      this.beerService = new BeerService();
      this.beerService.getBeers().then((beers) => {
        this.beers = beers;
-       // eslint-disable-next-line
-       console.log(beers)
+       this.isLoading = false;
      })
   },
   methods: {
@@ -56,18 +65,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+  .container {
+    flex-wrap: wrap;
+  }
+  .flex {
+    width: 48%;
+    margin: 20px 1%;
+    padding: 2%;
+  }
+
+  @media only screen and (max-width: 480px) {
+    .flex {
+      width:98%;
+    }
+  }
 </style>

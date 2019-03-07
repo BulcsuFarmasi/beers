@@ -1,5 +1,7 @@
 <template>
-      <Beers />
+      <v-app>
+        <Beers />
+      </v-app>
 </template>
 
 <script>

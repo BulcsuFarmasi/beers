@@ -1,6 +1,6 @@
 <template>
     <div class="filter">
-        <button v-on:click="toggleFilter()">Show Filters</button>
+        <v-btn color="warning" v-on:click="toggleFilter()">Show Filters</v-btn>
         <div class="filters" v-if="filtersShown">
             <p>
                 <label for="brewed-after">Brewed After</label><br>
@@ -11,7 +11,7 @@
                 <vue-monthly-picker v-model="filter.brewedBefore"></vue-monthly-picker>
             </p>
             <p>
-                <input type="submit" value="Filter" v-on:click="onFilter()">
+                <v-btn color="warning" v-on:click="onFilter()">Filter</v-btn>
             </p>
         </div>
     </div>
@@ -47,6 +47,25 @@ export default {
 </script>
 
 <style scoped>
+    .v-btn {
+        width: 33%;
+    }
 
+
+    .vue-monthly-picker {
+        width:33%;
+        margin: 0 auto;
+    }
+
+    @media only screen and (max-width: 480px) {
+        .v-btn {
+            width: 75%;
+        }
+
+        .vue-monthly-picker  {
+            width: 75%;
+        }
+
+    } 
 
 </style>
