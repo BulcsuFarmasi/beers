@@ -5,8 +5,7 @@ export default class {
     beers;
     url = 'https://api.punkapi.com/v2/beers'
 
-    filterBeers (filter) {
-        let beers = this.beers;
+    filterBeers (beers, filter) {
         if (filter.brewedAfter) {
             beers = beers.filter(beer => {
                 if (filter.brewedAfter.unix() < beer.firstBrewed.unix()) {

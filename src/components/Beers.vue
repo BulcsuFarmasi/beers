@@ -18,7 +18,7 @@
             </v-card>
           </v-flex>
       </v-container>
-      <p v-else class="text-xs-center">Beers not found</p>
+      <p v-else class="text-xs-center orange--text">Beers not found</p>
     </div>
 </template>
 
@@ -43,7 +43,7 @@ export default {
   data ()  {
     return {
       beers: [],
-      isLoading: true
+      searchExpression: ''
     }
   },
   mounted () {
@@ -55,9 +55,13 @@ export default {
   },
   methods: {
       onFilterChanged: function (filter) {
-        this.beers = this.beerService.filterBeers(filter);
+        this.beers = this.beerService.filterBeers(this.beers, filter);
+        if (!filter.brewedAfter && !filter.brewedBefore) {
+          this.beers = this.beerService.searchBeers(this.searchExpression);
+        }
       },
       onSearchChanged: function (searchExpression) {
+        this.searchExpression = searchExpression;
         this.beers = this.beerService.searchBeers(searchExpression);
       }
   }
